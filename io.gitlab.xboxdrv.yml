@@ -1,0 +1,57 @@
+app-id: io.gitlab.xboxdrv
+runtime: org.freedesktop.Platform
+runtime-version: '22.08'
+sdk: org.freedesktop.Sdk
+separate-locales: false
+command: xboxdrv
+finish-args:
+  - --share=ipc
+  - --device=all
+
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /lib/cmake
+  - /lib/debug
+  - /lib/python3.10
+  - /share
+
+modules:
+  - shared-modules/libusb/libusb.json
+  - shared-modules/dbus-glib/dbus-glib.json
+
+  - name: boost
+    disabled: false
+    buildsystem: simple
+    build-commands:
+      - cd tools/build && bison -y -d -o src/engine/jamgram.cpp src/engine/jamgram.y
+      - ./bootstrap.sh --prefix=$FLATPAK_DEST --with-libraries=headers || cat bootstrap.log
+      - ./b2 install variant=release link=static,shared runtime-link=shared cxxflags="$CXXFLAGS" linkflags="$LDFLAGS"
+        -j $FLATPAK_BUILDER_N_JOBS
+    sources:
+      - type: archive
+        url: http://archive.ubuntu.com/ubuntu/pool/main/b/boost1.74/boost1.74_1.74.0.orig.tar.xz
+        sha256: 2467be4af625b5ae4b3c93fc7af196a09eba39c11a7338cd9e8b356fa44d2f45
+
+  - name: scons
+    cleanup: '*'
+    buildsystem: simple
+    build-commands:
+      - python -mpip install . --no-index --find-links=file://$PWD --prefix=$FLATPAK_DEST --no-build-isolation
+    sources:
+      - type: archive
+        url: http://archive.ubuntu.com/ubuntu/pool/universe/s/scons/scons_4.0.1+dfsg.orig.tar.xz
+        sha256: f4fd16ab994f759773d3eae1a50fe5882c007c7bc705151201d0b57d8f7d2e79
+
+  - name: xboxdrv
+    buildsystem: simple
+    build-commands:
+      - scons
+      - make install PREFIX=$FLATPAK_DEST
+    sources:
+      # - type: archive
+      #   url: http://archive.ubuntu.com/ubuntu/pool/universe/x/xboxdrv/xboxdrv_0.8.8.orig.tar.bz2
+      #   sha256: f307ba95442cfedd06a934ac572fe5b1d66ef3b73caa458c10c5a82d7b4819b9
+      - type: git
+        url: https://git.launchpad.net/ubuntu/+source/xboxdrv
+        branch: applied/ubuntu/kinetic-proposed
