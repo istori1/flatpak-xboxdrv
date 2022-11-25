@@ -7,6 +7,7 @@ command: xboxdrv
 finish-args:
   - --share=ipc
   - --device=all
+  - --socket=system-bus
 
 cleanup:
   - /include
