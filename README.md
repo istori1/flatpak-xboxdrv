@@ -2,6 +2,11 @@
 
 Shared modules: https://github.com/flathub/shared-modules
 
+Homepage: https://xboxdrv.gitlab.io/
+
+Sources:
+https://gitlab.com/xboxdrv/xboxdrv/
+
 Todo: Building
 
 `flatpak install flathub org.flatpak.Builder org.freedesktop.Platform//22.08 org.freedesktop.Sdk//22.08`
