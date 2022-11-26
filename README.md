@@ -10,6 +10,7 @@ Todo: Building
 
 `flatpak remote-add --system --no-gpg-verify xboxdrv-repo xboxdrv-repo`
 
+`flatpak install io.gitlab.xboxdrv`
 
 Run
 
