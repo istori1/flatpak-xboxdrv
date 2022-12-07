@@ -50,9 +50,7 @@ modules:
       - scons
       - make install PREFIX=$FLATPAK_DEST
     sources:
-      # - type: archive
-      #   url: http://archive.ubuntu.com/ubuntu/pool/universe/x/xboxdrv/xboxdrv_0.8.8.orig.tar.bz2
-      #   sha256: f307ba95442cfedd06a934ac572fe5b1d66ef3b73caa458c10c5a82d7b4819b9
       - type: git
-        url: https://git.launchpad.net/ubuntu/+source/xboxdrv
-        branch: applied/ubuntu/kinetic-proposed
+        url: https://gitlab.com/xboxdrv/xboxdrv.git
+        branch: stable
+        commit: 662952a6d860e15dc1868943f500e09e9fef6916
