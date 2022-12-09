@@ -52,5 +52,4 @@ modules:
     sources:
       - type: git
         url: https://gitlab.com/xboxdrv/xboxdrv.git
-        branch: stable
         commit: 662952a6d860e15dc1868943f500e09e9fef6916
